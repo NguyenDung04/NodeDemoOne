@@ -4,7 +4,10 @@
   "description": "du an dau tien",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon --inspect src/index.js",
+    "start": "nodemon --inspect src/index.js", 
+    "build:sass": "sass src/resources/scss/main.scss src/public/css/main.css",
+    "watch:sass": "sass --watch src/resources/scss:src/public/css",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +31,7 @@
   "devDependencies": {
     "express-handlebars": "^8.0.2",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "sass": "^1.89.1"
   }
 }
