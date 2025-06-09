@@ -1,0 +1,31 @@
+{
+  "name": "project_one",
+  "version": "1.0.0",
+  "description": "du an dau tien",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NguyenDung04/NodeDemoOne.git"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "projectone"
+  ],
+  "author": "DungBios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NguyenDung04/NodeDemoOne/issues"
+  },
+  "homepage": "https://github.com/NguyenDung04/NodeDemoOne#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
