@@ -29,6 +29,11 @@
   "lint-staged": {
     "src/**/*.{js,json,scss}": "prettier --write --single-quote --trailing-comma all --tab-width 4"
   },
+  "husky": {
+    "hooks": { 
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "express": "^5.1.0"
   },

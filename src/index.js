@@ -25,19 +25,12 @@ app.use(express.json());
 // Template engine setup
                               app.engine(
     'hbs',
-
-
-
-
-
-
-    
     engine({
         extname: '.hbs',
     }),
 );
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('view engine',                  'hbs');
+app.set('views', path.join(__dirname,                     'resources/views'));
 
 // Importing routes init
 route(app);
