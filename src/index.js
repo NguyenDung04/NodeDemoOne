@@ -8,6 +8,11 @@ import { fileURLToPath } from 'url';
 // Importing necessary modules
 import route from './routes/index.js';
 
+// Importing database connection
+import connectDB from './config/db/index.js';
+// Connect to MongoDB
+connectDB();
+
 const app = express();
 const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
@@ -26,15 +31,15 @@ app.use(express.json());
 app.engine(
     'hbs',
     engine({
-                                            extname: '.hbs',
+        extname: '.hbs',
     }),
 );
-app.set('view engine', 'hbs'                    );
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'resources', 'views'));
 
 // Importing routes init
 route(app);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`);
+    console.log(`App listening on port http://localhost:${port}`);
 });

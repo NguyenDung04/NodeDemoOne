@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon --inspect src/index.js",
-    "format": "lint-staged",
+    "format": "prettier 'src/**/*.{js,json,scss}' --write --single-quote --trailing-comma all --tab-width 4",
     "build:sass": "sass src/resources/scss/main.scss src/public/css/main.css",
     "watch:sass": "sass --watch src/resources/scss:src/public/css",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,14 +26,6 @@
     "url": "https://github.com/NguyenDung04/NodeDemoOne/issues"
   },
   "homepage": "https://github.com/NguyenDung04/NodeDemoOne#readme",
-  "lint-staged": {
-    "src/**/*.{js,json,scss}": "prettier --write --single-quote --trailing-comma all --tab-width 4"
-  },
-  "husky": {
-    "hooks": { 
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "express": "^5.1.0"
   },
@@ -41,6 +33,7 @@
     "express-handlebars": "^8.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
+    "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",

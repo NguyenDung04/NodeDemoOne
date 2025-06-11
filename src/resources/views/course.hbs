@@ -1,0 +1,15 @@
+<h1>Danh sách khóa học</h1>
+
+{{#if courses.length}}
+  <ul>
+    {{#each courses}}
+      <li>
+        <img src="{{this.img_courses}}" alt="{{this.name}}" width="150" />
+        <h2>{{this.name}}</h2>
+        <p>{{this.description}}</p>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>Không có khóa học nào.</p>
+{{/if}}
