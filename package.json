@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/NguyenDung04/NodeDemoOne#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongoose-slug-generator": "^1.0.4"
   },
   "devDependencies": {
     "express-handlebars": "^8.0.2",
@@ -35,6 +36,7 @@
     "lint-staged": "^16.1.0",
     "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
+    "multer": "^2.0.1",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "sass": "^1.89.1"
