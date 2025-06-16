@@ -4,4 +4,22 @@
   border-radius: 5px;
 }
 
+.one-line-ellipsis {
+  line-height: 1.8rem;
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.two-line-ellipsis {
+  line-height: 1.8rem;
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 /*# sourceMappingURL=main.css.map */

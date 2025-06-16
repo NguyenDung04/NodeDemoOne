@@ -1,7 +1,13 @@
 import Course from '../models/Course.js';
 import { multipleMongooseToObject, mongooseToObject } from '../../util/mongoose.js';
+import slugify from 'slugify';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs';
 
 class CourseControllers {
+
     // GET /course
     async index(req, res, next) {
             Course.find({})
@@ -27,21 +33,27 @@ class CourseControllers {
             });
     }
 
-    // GET /course/create
-    create(req, res, next) {
-        res.render('course/create'); // Hiển thị form tạo khóa học
+    // GET /course/management
+    async management(req, res, next) {
+        try {
+            const courses = await Course.find({});
+            res.render('course/management', { courses: multipleMongooseToObject(courses) });
+        } catch (err) {
+            next(err);
+        }
     }
 
-    // POST /course/store 
-    async store(req, res, next) {
+    // POST /course/add
+    async add(req, res, next) {
         try {
-            const { name, slug, decription } = req.body;
+            const { name, description } = req.body;
+            const slug = slugify(name, { lower: true, strict: true });
 
             // ✅ xử lý ảnh
             let imagePath = '';
             if (req.file) {
-                console.log('✅ File đã upload:', req.file); // kiểm tra
                 imagePath = '/image/' + req.file.filename;
+
             } else {
                 console.warn('⚠️ Không nhận được file upload!');
             }
@@ -50,19 +62,66 @@ class CourseControllers {
             const course = new Course({
                 name,
                 slug,
-                decription,
+                description,
                 img_courses: imagePath, 
             });
 
             await course.save();
-            res.redirect('/course');
+            res.redirect('/course/management?success=created');
         } catch (err) {
             next(err);
         }
     }
 
+    // POST /course/update
+    async update(req, res, next) {
+        try {
+            const { id, name, description } = req.body;
+            const course = await Course.findById(id);
 
+            if (!course) {
+                return res.status(404).send('Course not found');
+            }
 
+            // Chỉ cập nhật nếu name thay đổi
+            if (name && name !== course.name) {
+                course.name = name;
+                course.slug = slugify(name, { lower: true, strict: true });
+            }
+
+            // Chỉ cập nhật nếu description thay đổi
+            if (description && description !== course.description) {
+                course.description = description;
+            }
+
+            // Chỉ cập nhật ảnh nếu có ảnh mới
+            if (req.file) {
+                const newImagePath = '/image/' + req.file.filename;
+                course.img_courses = newImagePath;
+            }
+
+            await course.save();
+            res.redirect('/course/management?success=updated');
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    // POST /course/delete
+    async delete(req, res, next) {
+        try {
+            const { id } = req.body;
+
+            if (!id || id.trim() === '') {
+            return res.status(400).send('ID không hợp lệ');
+            }
+
+            await Course.findByIdAndDelete(id);
+            res.redirect('/course/management?success=deleted');
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default new CourseControllers();

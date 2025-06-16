@@ -1,4 +1,3 @@
-// const newsRouter = require('./news');
 import newsRouter from './news.js';
 import siteRouter from './site.js';
 import courseRouter from './course.js';

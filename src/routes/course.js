@@ -1,14 +1,15 @@
 import express from 'express';
 import courseControllers from '../app/controllers/CourseControllers.js';
-import upload from '../util/upload.js'; // Giả sử bạn đã cấu hình middleware upload
+import upload from '../util/upload.js';
 
 const router = express.Router();
 
-router.get('/create', courseControllers.create);
-router.post('/store', upload.single('img_courses'), courseControllers.store);
+router.post('/delete', courseControllers.delete);
+router.post('/update', upload.single('img_courses'), courseControllers.update); 
+router.post('/add', upload.single('img_courses'), courseControllers.add);
+router.get('/management', courseControllers.management);
 
 router.get('/:slug', courseControllers.show);
-
 router.get('/', courseControllers.index);
 
 export default router;

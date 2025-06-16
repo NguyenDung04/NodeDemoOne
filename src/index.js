@@ -32,8 +32,12 @@ app.engine(
     'hbs',
     engine({
         extname: '.hbs',
+        helpers: {
+            inc: (value) => parseInt(value) + 1,
+        },
     }),
 );
+
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
 
