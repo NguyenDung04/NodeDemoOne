@@ -1,9 +1,10 @@
-// Importing necessary modules
 import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
 import { engine } from 'express-handlebars';
 import { fileURLToPath } from 'url';
+import methodOverride from 'method-override';
+import setGlobalVariables from './middleware/localVariables.js';
 
 // Importing necessary modules
 import route from './routes/index.js';
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body parser middleware and JSON parser middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride('_method'));
 
 // HTTP logger
 // app.use(morgan('combined'))
@@ -40,6 +42,9 @@ app.engine(
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
+
+// Middleware to set global variables
+app.use(setGlobalVariables);
 
 // Importing routes init
 route(app);

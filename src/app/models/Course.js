@@ -1,5 +1,6 @@
 // src/app/models/Course.js
 import mongoose from 'mongoose';
+import mongooseDelete from 'mongoose-delete';
 
 const Schema = mongoose.Schema;
 
@@ -11,5 +12,8 @@ const Course = new Schema({
 }, {
   timestamps: true,
 });
+
+Course.plugin(mongooseDelete, { overrideMethods: 'all', deletedAt: true });
+
 
 export default mongoose.model('Course', Course);

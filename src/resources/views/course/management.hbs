@@ -1,6 +1,7 @@
 <div class="mt-4">
     <div class="container" style="margin-top: 50px;">
         <h1>Quản Lý Khóa Học</h1>
+        
         <table class="table table-hover">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
@@ -39,7 +40,15 @@
                             </button>
                         </td>
                     </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="4" class="text-center">Không có khóa học nào.
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">Thêm khóa học</a>
+                        </td>
+                    </tr>
                 {{/each}}
+
+
             </tbody>
         </table>
 
@@ -82,7 +91,7 @@
         <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
-                <form method="POST" action="/course/update" enctype="multipart/form-data">
+                <form method="POST" id="update-form" enctype="multipart/form-data">
                     <div class="modal-header">
                     <h5 class="modal-title" id="updateModalLabel">Cập Nhật Khóa Học</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
@@ -133,7 +142,7 @@
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                <form method="POST" action="/course/delete">
+                <form id="delete-form" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="deleteModalLabel">Xác nhận xoá</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
@@ -207,18 +216,26 @@
                 document.getElementById('update-name').value = name;
                 document.getElementById('update-description').value = description;
                 document.getElementById('update-img-preview').src = img;
+
+                document.getElementById('update-form').action = '/course/update/' + id;
                 });
             });
 
             // Nút xoá
             const deleteButtons = document.querySelectorAll('.btn-delete');
 
-                deleteButtons.forEach(button => {
+            deleteButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const id = button.getAttribute('data-id');
-                    document.getElementById('delete-id').value = id;
+
+                    document.getElementById('delete-form').action = '/course/delete/' + id;
+
+                    // Nếu bạn có hiển thị tên khóa học trong modal:
+                    const name = button.closest('tr').querySelector('td:nth-child(2)').innerText;
+                    document.getElementById('delete-name').textContent = name;
                 });
             });
+
         </script>
     </div>
 </div>
