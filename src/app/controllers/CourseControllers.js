@@ -213,7 +213,7 @@ class CourseControllers {
     // POST /course/restore-multiple
     async restoreMultiple(req, res, next) {
         try {
-            let ids = req.body.ids;
+            let tids = req.body.ids;
             if (typeof ids === 'string') ids = JSON.parse(ids);
 
             if (!Array.isArray(ids) || ids.length === 0) {
