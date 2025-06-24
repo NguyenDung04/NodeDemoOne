@@ -120,6 +120,40 @@ class CourseControllers {
         }
     }
     
+    // POST /course/delete-multiple 
+    async deleteMultiple(req, res, next) {
+        try {
+            const { action } = req.body;
+            let ids = req.body.ids;
+
+            // Nếu ids là chuỗi (do gửi qua form), ta cần parse JSON
+            if (typeof ids === 'string') {
+                try {
+                    ids = JSON.parse(ids);
+                } catch (err) {
+                    return res.status(400).json({ message: 'Không thể phân tích danh sách ID.' });
+                }
+            }
+
+            // Kiểm tra ids có hợp lệ không
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return res.status(400).json({ message: 'Danh sách ID không hợp lệ.' });
+            }
+
+            if (action !== 'delete') {
+                return res.status(400).json({ message: 'Hành động không hợp lệ.' });
+            }
+
+            // Xoá mềm
+            await Course.delete({ _id: { $in: ids } });
+
+            // Dùng redirect nếu là submit form
+            return res.redirect('/course/management?success=deleted');
+        } catch (err) {
+            next(err);
+        }
+    }
+
     // GET /course/trash
     async trash(req, res, next) {
         Promise.all([Course.findDeleted({ deletedAt: { $ne: null } }), Course.countDocumentsDeleted()])
@@ -175,6 +209,54 @@ class CourseControllers {
             res.status(500).json({ message: 'Lỗi khi xóa khóa học', error: err.message });
         }
     }
+
+    // POST /course/restore-multiple
+    async restoreMultiple(req, res, next) {
+        try {
+            let ids = req.body.ids;
+            if (typeof ids === 'string') ids = JSON.parse(ids);
+
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return res.status(400).send('Không có ID nào để khôi phục.');
+            }
+
+            await Course.restore({ _id: { $in: ids } });
+            res.redirect('/course/trash?success=restored');
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    // POST /course/delete-multiple-force
+    async forceDeleteMultiple(req, res, next) {
+        try {
+            let ids = req.body.ids;
+            if (typeof ids === 'string') ids = JSON.parse(ids);
+
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return res.status(400).send('Không có ID nào để xoá vĩnh viễn.');
+            }
+
+            const courses = await Course.findWithDeleted({ _id: { $in: ids } });
+
+            // Xoá file ảnh nếu có
+            for (const course of courses) {
+                if (course.img_courses && course.img_courses.startsWith('/image/')) {
+                    const imagePath = path.join('public', course.img_courses);
+                    fs.unlink(imagePath, (err) => {
+                        if (err) console.error('Không thể xoá ảnh:', err.message);
+                    });
+                }
+            }
+
+            await Course.deleteMany({ _id: { $in: ids } });
+            res.redirect('/course/trash?success=deleted');
+        } catch (err) {
+            next(err);
+        }
+    }
+
+
 }
 
 export default new CourseControllers();

@@ -14,9 +14,15 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/course">Xem Khóa học</a></li>
                             <li><a class="dropdown-item" href="/course/management">Quản Lý Khóa học</a></li>
-                            <li><a class="dropdown-item" href="/course/trash">Thùng Rác 
-                                <span class="badge bg-danger">{{deleteCount}}</span></a>
+                            <li>
+                                <a class="dropdown-item" href="/course/trash">
+                                    Thùng Rác 
+                                    {{#if deleteCount}}
+                                        <span class="badge bg-danger">{{deleteCount}}</span>
+                                    {{/if}}
+                                </a>
                             </li>
+
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
                         </ul>

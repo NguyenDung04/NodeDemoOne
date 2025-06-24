@@ -2,14 +2,35 @@
     <div class="container" style="margin-top: 50px;">
         <h1>Quản Lý Khóa Học</h1>
         
-        <table class="table table-hover">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
-                    Thêm khóa học
-                </button>
+        <table class="table table-hover mt-2">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"> 
+                <div class="d-flex align-items-center gap-3 flex-wrap mb-0">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="checkboxAll">
+                        <label class="form-check-label" for="checkboxAll">Chọn tất cả</label>
+                    </div>
+
+                    <select class="form-select w-auto mb-0" id="selectAction">
+                        <option value="" selected disabled>Chọn hành động</option>
+                        <option value="delete">Xoá</option> 
+                    </select>
+
+                    <form id="bulk-action-form" method="POST" action="/course/delete-multiple">
+                        <input type="hidden" name="action" id="bulk-action-type">
+                        <input type="hidden" name="ids" id="bulk-action-ids">
+                        <button type="submit" class="btn btn-success mb-0 btn-check-all disabled">Áp dụng</button>
+                    </form>
+
+                </div> 
+                <div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
+                        Thêm khóa học
+                    </button>
+                </div>
             </div>
             <thead>
-                <tr class="text-center">
+                <tr class="text-center"> 
+                    <th scope="col"></th>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
@@ -19,6 +40,13 @@
             <tbody>
                 {{#each courses}}
                     <tr class="text-center">
+                        <td class="text-truncate">
+                            <div class="form-check mb-0 text-center">
+                                <input class="form-check-input" type="checkbox" 
+                                       value="{{_id}}" 
+                                       name="courseCheckbox">
+                            </div>
+                        </td>
                         <th scope="row">{{inc @index}}</th>
                         <td class="text-truncate" style="max-width: 100px;">{{name}}</td>
                         <td class="text-truncate" style="max-width: 150px;">{{description}}</td>
@@ -46,9 +74,7 @@
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">Thêm khóa học</a>
                         </td>
                     </tr>
-                {{/each}}
-
-
+                {{/each}} 
             </tbody>
         </table>
 
@@ -162,80 +188,143 @@
         </div>
 
         <script>
-            const urlParams = new URLSearchParams(window.location.search);
-            const success = urlParams.get('success');
+            document.addEventListener('DOMContentLoaded', function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const success = urlParams.get('success');
+                const nameInput = document.getElementById('name');
+                const slugInput = document.getElementById('slug');
+                const updateButtons = document.querySelectorAll('.btn-update');
+                const deleteButtons = document.querySelectorAll('.btn-delete');
+                var checkboxAll = $('#checkboxAll');
+                var courseCheckboxes = $('input[name="courseCheckbox"]');
+                var checkAllSubmitButton = $('.btn-check-all');
 
-            if (success === 'created') {
-                Swal.fire({
-                icon: 'success',
-                title: 'Đã thêm khóa học!',
-                showConfirmButton: false,
-                timer: 2000
+                if (success === 'created') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Đã thêm khóa học!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    window.history.replaceState(null, '', '/course/management');
+                }
+
+                if (success === 'updated') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cập nhật thành công!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    window.history.replaceState(null, '', '/course/management');
+                }
+
+                if (success === 'deleted') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Đã xoá khóa học!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    window.history.replaceState(null, '', '/course/management');
+                }
+
+                if (nameInput && slugInput) {
+                    nameInput.addEventListener('input', function () {
+                        slugInput.value = nameInput.value;
+                    });
+                }
+
+                updateButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const name = button.getAttribute('data-name');
+                        const description = button.getAttribute('data-description');
+                        const img = button.getAttribute('data-img');
+
+                        document.getElementById('update-id').value = id;
+                        document.getElementById('update-name').value = name;
+                        document.getElementById('update-description').value = description;
+                        document.getElementById('update-img-preview').src = img;
+
+                        document.getElementById('update-form').action = '/course/update/' + id;
+                    });
                 });
-                window.history.replaceState(null, '', '/course/management');
-            }
 
-            if (success === 'updated') {
-                Swal.fire({
-                icon: 'success',
-                title: 'Cập nhật thành công!',
-                showConfirmButton: false,
-                timer: 2000
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        document.getElementById('delete-form').action = '/course/delete/' + id;
+
+                        const name = button.closest('tr').querySelector('td:nth-child(2)').innerText;
+                        document.getElementById('delete-name').textContent = name;
+                    });
                 });
-                window.history.replaceState(null, '', '/course/management');
-            }
 
-            if (success === 'deleted') {
-                Swal.fire({
-                icon: 'success',
-                title: 'Đã xoá khóa học!',
-                showConfirmButton: false,
-                timer: 2000
+                // Checkbox all change event
+                checkboxAll.change(function() {
+                    var isChecked = $(this).prop('checked');
+                    courseCheckboxes.prop('checked', isChecked);
+                    renderCheckAllSubmitButton();
+                }); 
+
+                // Checkbox change event
+                courseCheckboxes.change(function() {
+                    var allChecked = courseCheckboxes.length === courseCheckboxes.filter(':checked').length;
+                    checkboxAll.prop('checked', allChecked);
+                    renderCheckAllSubmitButton();
                 });
-                window.history.replaceState(null, '', '/course/management');
-            }
 
-            const nameInput = document.getElementById('name');
-            const slugInput = document.getElementById('slug');
+                // Check all submit button click event 
+                checkAllSubmitButton.click(function (e) {
+                    if ($(this).hasClass('disabled')) {
+                        e.preventDefault();
+                        return;
+                    }
 
-            nameInput.addEventListener('input', function () {
-                slugInput.value = nameInput.value;
+                    const selectedAction = $('#selectAction').val();
+                    if (!selectedAction) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Vui lòng chọn hành động!',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        return;
+                    }
+
+                    const selectedIds = [];
+                    $('input[name="courseCheckbox"]:checked').each(function () {
+                        selectedIds.push($(this).val());
+                    });
+
+                    if (selectedIds.length === 0) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Vui lòng chọn ít nhất 1 khóa học!',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        return;
+                    }
+
+                    // Đưa dữ liệu vào input hidden
+                    $('#bulk-action-type').val(selectedAction);
+                    $('#bulk-action-ids').val(JSON.stringify(selectedIds));
+                });
+
+                // Render check all submit button
+                function renderCheckAllSubmitButton() {
+                    var checkedCount = courseCheckboxes.filter(':checked').length;
+                    if (checkedCount > 0) { 
+                        checkAllSubmitButton.removeClass('disabled');
+                    } else {
+                        checkAllSubmitButton.addClass('disabled');
+                    }
+                } 
             });
-
-            // Update modal functionality
-            const updateButtons = document.querySelectorAll('.btn-update');
-
-            updateButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                const id = button.getAttribute('data-id');
-                const name = button.getAttribute('data-name');
-                const description = button.getAttribute('data-description');
-                const img = button.getAttribute('data-img');
-
-                document.getElementById('update-id').value = id;
-                document.getElementById('update-name').value = name;
-                document.getElementById('update-description').value = description;
-                document.getElementById('update-img-preview').src = img;
-
-                document.getElementById('update-form').action = '/course/update/' + id;
-                });
-            });
-
-            // Nút xoá
-            const deleteButtons = document.querySelectorAll('.btn-delete');
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const id = button.getAttribute('data-id');
-
-                    document.getElementById('delete-form').action = '/course/delete/' + id;
-
-                    // Nếu bạn có hiển thị tên khóa học trong modal:
-                    const name = button.closest('tr').querySelector('td:nth-child(2)').innerText;
-                    document.getElementById('delete-name').textContent = name;
-                });
-            });
-
         </script>
     </div>
 </div>
