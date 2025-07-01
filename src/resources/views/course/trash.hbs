@@ -152,14 +152,14 @@
                   $('#bulk-action-ids').val(JSON.stringify(selectedIds));
       
                   // Chọn action phù hợp cho form
-      const form = $('#bulk-action-form');
-      if (selectedAction === 'restore') {
-      form.attr('action', '/course/restore-multiple');
-      form.attr('method', 'POST');
-      } else if (selectedAction === 'delete') {
-      form.attr('action', '/course/delete-multiple-force');
-      form.attr('method', 'POST');
-      }
+                    const form = $('#bulk-action-form');
+                    if (selectedAction === 'restore') {
+                    form.attr('action', '/course/restore-multiple');
+                    form.attr('method', 'POST');
+                    } else if (selectedAction === 'delete') {
+                    form.attr('action', '/course/delete-multiple-force');
+                    form.attr('method', 'POST');
+                    }
       
               });
       

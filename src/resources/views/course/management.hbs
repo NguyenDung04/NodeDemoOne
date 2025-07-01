@@ -31,9 +31,12 @@
             <thead>
                 <tr class="text-center"> 
                     <th scope="col"></th>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Name 
+                        {{{ sortable "name" _sort }}}
+                    </th>
+                    <th scope="col">Description
+                        {{{ sortable "description" _sort }}}
+                    </th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -47,7 +50,6 @@
                                        name="courseCheckbox">
                             </div>
                         </td>
-                        <th scope="row">{{inc @index}}</th>
                         <td class="text-truncate" style="max-width: 100px;">{{name}}</td>
                         <td class="text-truncate" style="max-width: 150px;">{{description}}</td>
                         <td>

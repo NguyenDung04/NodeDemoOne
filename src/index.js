@@ -5,6 +5,10 @@ import { engine } from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import setGlobalVariables from './middleware/localVariables.js';
+import sortMiddleware from './middleware/SortMiddleware.js';
+import session from 'express-session';
+import passport from 'passport';
+import './config/passport.js'; // load cấu hình passport
 
 // Importing necessary modules
 import route from './routes/index.js';
@@ -26,6 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 
+// Sort middleware
+app.use(sortMiddleware);
+
 // HTTP logger
 // app.use(morgan('combined'))
 
@@ -41,7 +48,18 @@ app.engine(
 );
 
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources', 'views'));
+app.set('views', path.join(__dirname, 'resources', 'views')); 
+
+// Cấu hình session
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}));
+
+// Cấu hình passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware to set global variables
 app.use(setGlobalVariables);

@@ -156,7 +156,23 @@ class CourseControllers {
 
     // GET /course/trash
     async trash(req, res, next) {
-        Promise.all([Course.findDeleted({ deletedAt: { $ne: null } }), Course.countDocumentsDeleted()])
+        let courseQuery = Course.findDeleted({ deletedAt: { $ne: null } });
+
+        // Kiểm tra sự tồn tại của tham số _sort, column, và type trong req.query
+        if (req.query._sort && req.query.column && req.query.type) {
+            // Kiểm tra và đảm bảo type hợp lệ
+            const sortType = (req.query.type === 'asc' || req.query.type === 'desc') ? req.query.type : 'asc';  // Default 'asc' nếu không hợp lệ
+
+            // Tiến hành sắp xếp theo cột và kiểu sắp xếp
+            courseQuery = courseQuery.sort({
+                [req.query.column]: sortType,
+            });
+        }
+
+        // Tiếp tục với truy vấn
+
+
+        Promise.all([courseQuery, Course.countDocumentsDeleted()])
             .then(([courses, deleteCount]) => {
                 res.render('course/trash', {
                     courses: multipleMongooseToObject(courses),
@@ -255,8 +271,6 @@ class CourseControllers {
             next(err);
         }
     }
-
-
 }
 
 export default new CourseControllers();

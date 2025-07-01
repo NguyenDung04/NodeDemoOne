@@ -27,6 +27,13 @@
                             <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
                         </ul>
                     </li>
+                    {{#if user}}
+                        <span class="me-2">Xin chào, {{user.displayName}}</span>
+                        <a class="btn btn-outline-danger" href="/auth/logout" type="button">Đăng xuất</a>
+                    {{else}}
+                        <a class="btn btn-outline-secondary" href="/auth/google" type="button">Đăng nhập bằng Google</a>
+                    {{/if}}
+
                 </ul>
                 </form>
             </div>
