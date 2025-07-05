@@ -1,21 +1,14 @@
 import express from 'express';
-import passport from 'passport';
 import authControllers from '../app/controllers/AuthControllers.js';
 
 const router = express.Router();
 
-router.get('/', authControllers.index);
+router.get('/login', authControllers.showLogin); 
 
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/login/google', authControllers.showGoogleLogin); 
 
-router.get('/google/callback', passport.authenticate('google', {
-    failureRedirect: '/',
-}), (req, res) => {
-    res.redirect('/auth/success');
-});
+router.get('/register', authControllers.showRegister); 
 
-router.get('/success', authControllers.success);
-
-router.get('/logout', authControllers.logout);
+router.get('/change-password', authControllers.showChangePassword); 
 
 export default router;
