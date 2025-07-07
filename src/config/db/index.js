@@ -1,4 +1,3 @@
-
 // Using ES6 imports
 import mongoose from 'mongoose';
 

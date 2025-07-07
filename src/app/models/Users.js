@@ -1,0 +1,26 @@
+import mongoose from 'mongoose';
+import mongooseDelete from 'mongoose-delete';
+
+const Schema = mongoose.Schema;
+
+const User = new Schema({
+  googleId: { type: String, default: null, unique: true, sparse: true },
+  name: { type: String, required: true, maxLength: 100 },
+  username: { type: String, unique: true, sparse: true, default: 'Guest' },
+  email: { type: String, required: true, unique: true, maxLength: 100 },
+  password: { type: String, default: null },
+  provider: { type: String, enum: ['local', 'google'], required: true },
+  role: { type: String, enum: ['user', 'shop', 'admin'], default: 'user' },
+  avatarUrl: { type: String, default: '/images/default-user.png' },
+  token: { type: String, required: true },
+  totalDeposit: { type: Number, default: 0 },
+  currentMoney: { type: Number, default: 0 },
+  level: { type: Number, default: 1 },
+  isBanned: { type: Boolean, default: false }, 
+}, {
+  timestamps: true,
+});
+
+User.plugin(mongooseDelete, { overrideMethods: 'all', deletedAt: true });
+
+export default mongoose.model('User', User);

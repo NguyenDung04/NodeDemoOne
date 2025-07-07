@@ -4,39 +4,45 @@ import morgan from 'morgan';
 import { engine } from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
-import setGlobalVariables from './middleware/localVariables.js';
-import sortMiddleware from './middleware/SortMiddleware.js';
-import session from 'express-session';
-import passport from 'passport';
-import './config/passport.js'; // load cấu hình passport
+import dotenv from 'dotenv';
+import session from 'express-session';           // ✅ Bổ sung dòng này
+import passport from 'passport';                 // ✅ Khởi tạo passport
 
-// Importing necessary modules
-import route from './routes/index.js';
+// Load biến môi trường từ .env
+dotenv.config();
 
-// Importing database connection
+// Kết nối MongoDB
 import connectDB from './config/db/index.js';
-// Connect to MongoDB
 connectDB();
+
+// Cấu hình passport Google
+import './config/passport.js';
+
+// Middleware custom
+import setGlobalVariables from './middleware/localVariables.js';
+
+// Route chính
+import route from './routes/index.js';
 
 const app = express();
 const port = 3000;
+
+// ES Module compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Static files middleware
+// Static files
 app.use(express.static(path.join(__dirname, 'public')));
-// Body parser middleware and JSON parser middleware
+
+// Body parsers
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 
-// Sort middleware
-app.use(sortMiddleware);
+// Logger (tuỳ chọn)
+// app.use(morgan('dev'));
 
-// HTTP logger
-// app.use(morgan('combined'))
-
-// Template engine setup
+// Template engine: handlebars
 app.engine(
     'hbs',
     engine({
@@ -44,29 +50,29 @@ app.engine(
         helpers: {
             inc: (value) => parseInt(value) + 1,
         },
-    }),
+    })
 );
-
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources', 'views')); 
+app.set('views', path.join(__dirname, 'resources', 'views'));
 
-// Cấu hình session
+// ✅ Session setup (đặt TRƯỚC passport)
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
 }));
 
-// Cấu hình passport
+// ✅ Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware to set global variables
+// ✅ Biến toàn cục (req.user, v.v...)
 app.use(setGlobalVariables);
 
-// Importing routes init
+// ✅ Routing
 route(app);
 
+// ✅ Khởi chạy server
 app.listen(port, () => {
-    console.log(`App listening on port http://localhost:${port}`);
+    console.log(`App listening on http://localhost:${port}`);
 });

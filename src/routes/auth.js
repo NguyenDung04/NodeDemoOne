@@ -1,14 +1,25 @@
 import express from 'express';
-import authControllers from '../app/controllers/AuthControllers.js';
+import authController from '../app/controllers/AuthControllers.js';
 
 const router = express.Router();
 
-router.get('/login', authControllers.showLogin); 
+// Trang đăng nhập thường (local login)
+router.get('/login', authController.showLogin);
 
-router.get('/login/google', authControllers.showGoogleLogin); 
+// Trang đổi mật khẩu
+router.get('/changePassword', authController.showChangePassword);
 
-router.get('/register', authControllers.showRegister); 
+// Trang đăng ký
+router.get('/register', authController.showRegister);
+router.post('/register', authController.handleRegister);
 
-router.get('/change-password', authControllers.showChangePassword); 
+// Bắt đầu đăng nhập với Google
+router.get('/google', authController.showGoogleLogin);
+
+// Xử lý callback sau khi đăng nhập Google
+router.get('/google/callback', authController.handleGoogleCallback);
+
+// Đăng xuất
+router.get('/logout', authController.logout);
 
 export default router;

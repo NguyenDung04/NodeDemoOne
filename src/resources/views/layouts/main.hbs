@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  {{> head}}  
-</head>
-<body id="kt_app_body"
+  <head>
+    {{> head}}  {{!-- chỉ lấy thư viện head từ main --}}
+  </head>
+  <!--begin::Body-->
+   <body  id="kt_app_body"
       data-kt-app-header-fixed="true"
       data-kt-app-header-fixed-mobile="true"
       data-kt-app-sidebar-enabled="true"
@@ -12,48 +13,34 @@
       data-kt-app-sidebar-push-header="true"
       data-kt-app-sidebar-push-toolbar="true"
       data-kt-app-sidebar-push-footer="true"
-      class="app-default">
+      class="app-default"> 
+      <!--begin::Theme mode setup-->
+        <script>
+          var defaultThemeMode = "light";
+          var themeMode;
+          if (document.documentElement) {
+            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+              themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+            } else if (localStorage.getItem("data-bs-theme") !== null) {
+              themeMode = localStorage.getItem("data-bs-theme");
+            } else {
+              themeMode = defaultThemeMode;
+            }
 
-  <!--begin::Theme mode setup-->
-  <script>
-    var defaultThemeMode = "light";
-    var themeMode;
-    if (document.documentElement) {
-      if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
-        themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
-      } else if (localStorage.getItem("data-bs-theme") !== null) {
-        themeMode = localStorage.getItem("data-bs-theme");
-      } else {
-        themeMode = defaultThemeMode;
-      }
+            if (themeMode === "system") {
+              themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
 
-      if (themeMode === "system") {
-        themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      }
-
-      document.documentElement.setAttribute("data-bs-theme", themeMode);
-    }
-  </script>
-  <!--end::Theme mode setup-->
-
-  <!--begin::Header-->
-  {{> header}}
-  <!--end::Header-->
-
-   <!--begin::Sidebar-->
-   {{> sidebar}}
-   <!--end::Sidebar-->
-
-  <!--begin::Main Content-->
-  {{{ body }}}
-  <!--end::Main Content-->
-
-  <!--begin::Footer-->
-  {{> footer}}
-  <!--end::Footer-->
-
-  <!--begin::Scripts-->
-  {{> scripts}}
-  <!--end::Scripts-->
-</body>
+            document.documentElement.setAttribute("data-bs-theme", themeMode);
+          }
+        </script>
+      <!--end::Theme mode setup-->
+      <!--begin::Root-->
+        <a href="auth/login">Đăng nhập</a>
+        <a href="auth/register">Đăng Ký</a>
+        <a href="auth/changePassword">Đổi mật khẩu</a>
+      <!--end::Root-->
+    {{> scripts}}  {{!-- chỉ lấy thư viện script từ main --}}
+   </body>
+   <!--end::Body-->
 </html>
