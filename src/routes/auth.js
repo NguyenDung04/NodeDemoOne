@@ -3,13 +3,22 @@ import authController from '../app/controllers/AuthControllers.js';
 
 const router = express.Router();
 
-// Trang đăng nhập thường (local login)
+// Hiện thị trang đăng nhập
 router.get('/login', authController.showLogin);
 
-// Trang đổi mật khẩu
+// Xử lý đăng nhập thường (local login)
+router.post('/login', authController.handleLogin); 
+
+// Hiện thị trang đổi mật khẩu
 router.get('/changePassword', authController.showChangePassword);
 
-// Trang đăng ký
+// ✅ Kiểm tra email tồn tại (bước 1)
+router.post('/checkEmail', authController.checkEmail);
+
+// ✅ Đổi mật khẩu mới (bước 2)
+router.post('/changePasswordNew', authController.changePasswordNew);
+
+// Hiện thị trang đăng ký
 router.get('/register', authController.showRegister);
 router.post('/register', authController.handleRegister);
 

@@ -61,17 +61,20 @@
                         </div>  
 
                         <!--begin::Local Login Form-->
-                        <form class="form w-100" novalidate="novalidate" id="form_login_local" method="POST" action="">
-                           <!-- Email -->
-                           <div class="fv-row mb-8">
-                              <input type="email" placeholder="Enter your email" name="email" class="form-control bg-transparent" required />
+                        <form class="form w-100" novalidate="novalidate" id="form_register_local" method="POST" action="">
+                           <!--begin::Input group-->
+                           <div class="form-floating fv-row mb-8">
+                              <input type="email" class="form-control bg-transparent" name="email" autocomplete="off" id="floatingEmail" placeholder="Enter your email" required/>
+                              <label class="text-muted fw-bold" for="floatingEmail">Enter your email</label>
                            </div>
+                           <!--end::Input group-->  
 
                            <!--begin::Input group-->
-                           <div class="fv-row mb-8">
-                              <input type="text" placeholder="Enter your username" name="username" autocomplete="off" class="form-control bg-transparent" required />
+                           <div class="form-floating fv-row mb-8">
+                              <input type="text" class="form-control bg-transparent" name="username" autocomplete="off" id="floatingUsername" placeholder="Enter your username" required/>
+                              <label class="text-muted fw-bold" for="floatingUsername">Enter your username</label>
                            </div>
-                           <!--end::Input group-->                         
+                           <!--end::Input group-->                        
 
                            <!--begin::Input group-->
                            <div class="fv-row mb-8" data-kt-password-meter="true">
@@ -81,9 +84,9 @@
                                  <div class="position-relative mb-3">    
                                     <input class="form-control bg-transparent" type="password" placeholder="Enter your password" name="password" autocomplete="off"/>
                                        <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
-                                       <i class="ki-outline ki-eye-slash fs-2"></i>                    
-                                       <i class="ki-outline ki-eye fs-2 d-none"></i>                
-                                    </span>
+                                          <i class="ki-outline ki-eye fs-2"></i>
+                                          <i class="ki-outline ki-eye-slash fs-2 d-none"></i>                                    
+                                       </span> 
                                  </div>
                                  <!--end::Input wrapper-->
                                  <!--begin::Meter-->
@@ -107,7 +110,7 @@
                            <div class="fv-row mb-8" data-kt-password-meter="true">
                               <!--begin::Repeat Password-->
                               <div class="position-relative mb-3">    
-                                    <input class="form-control bg-transparent" type="password" placeholder="Repeat your password" name="confirm-password" autocomplete="off"/>
+                                    <input class="form-control bg-transparent" type="password" placeholder="Repeat your password" name="confirmPassword" autocomplete="off"/>
                                        <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
                                        <i class="ki-outline ki-eye-slash fs-2"></i>                    
                                        <i class="ki-outline ki-eye fs-2 d-none"></i>                
@@ -118,8 +121,8 @@
                            <!--end::Input group--->
                            <!--begin::Accept-->
                            <div class="fv-row mb-8">
-                              <label class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" value="1"/>
+                              <label class="form-check form-check-inline"> 
+                              <input id="accept_terms" class="form-check-input" type="checkbox" value="1"/> 
                               <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">
                               I Accept the <a href="#" class="ms-1 link-primary">Terms</a>
                               </span>
@@ -145,6 +148,105 @@
                         </form>
                         <!--end::Local Login Form-->
 
+                        <script>
+                           document.addEventListener("DOMContentLoaded", function () {
+                              const form = document.getElementById("form_register_local");
+
+                              form.addEventListener("submit", async function (e) {
+                                 e.preventDefault();
+
+                                 const email = form.email.value.trim();
+                                 const username = form.username.value.trim();
+                                 const password = form.password.value;
+                                 const confirmPassword = form.confirmPassword.value;
+                                 const acceptTerms = document.getElementById("accept_terms");
+
+                                 // ✅ Kiểm tra rỗng
+                                 if (!email || !username || !password || !confirmPassword) {
+                                    return Swal.fire({
+                                       icon: 'warning',
+                                       title: 'Thiếu thông tin',
+                                       text: 'Vui lòng điền đầy đủ các thông tin.'
+                                    });
+                                 }
+
+                                 // ✅ Kiểm tra mật khẩu khớp
+                                 if (password !== confirmPassword) {
+                                    return Swal.fire({
+                                       icon: 'error',
+                                       title: 'Mật khẩu không khớp',
+                                       text: 'Vui lòng nhập lại mật khẩu cho khớp.'
+                                    });
+                                 }
+
+                                 // ✅ Kiểm tra điều khoản
+                                 if (!acceptTerms.checked) {
+                                    return Swal.fire({
+                                       icon: 'warning',
+                                       title: 'Chấp nhận điều khoản',
+                                       text: 'Bạn phải đồng ý với điều khoản trước khi đăng ký.'
+                                    });
+                                 }
+
+                                 // ✅ Hiển thị loading UI
+                                 const submitBtn = document.getElementById("kt_register_signin_link");
+                                 submitBtn.disabled = true;
+                                 submitBtn.querySelector(".indicator-label").style.display = "none";
+                                 submitBtn.querySelector(".indicator-progress").style.display = "inline-block";
+
+                                 try {
+                                    const res = await fetch("/auth/register", {
+                                       method: "POST",
+                                       headers: {
+                                          "Content-Type": "application/json"
+                                       },
+                                       body: JSON.stringify({
+                                          email,
+                                          username,
+                                          password
+                                       })
+                                    });
+
+                                    const data = await res.json();
+
+                                    // ❌ Dừng loading
+                                    submitBtn.disabled = false;
+                                    submitBtn.querySelector(".indicator-label").style.display = "inline-block";
+                                    submitBtn.querySelector(".indicator-progress").style.display = "none";
+
+                                    if (res.ok) {
+                                       Swal.fire({
+                                          icon: 'success',
+                                          title: 'Đăng ký thành công!',
+                                          text: 'Bạn có thể đăng nhập ngay bây giờ.',
+                                          timer: 2500,
+                                          showConfirmButton: false
+                                       }).then(() => {
+                                          window.location.href = "/auth/login";
+                                       });
+                                    } else {
+                                       Swal.fire({
+                                          icon: 'error',
+                                          title: 'Lỗi đăng ký',
+                                          text: data.error || 'Đã xảy ra lỗi không xác định.'
+                                       });
+                                    }
+                                 } catch (err) {
+                                    // ❌ Dừng loading khi lỗi
+                                    submitBtn.disabled = false;
+                                    submitBtn.querySelector(".indicator-label").style.display = "inline-block";
+                                    submitBtn.querySelector(".indicator-progress").style.display = "none";
+
+                                    Swal.fire({
+                                       icon: 'error',
+                                       title: 'Lỗi hệ thống',
+                                       text: 'Không thể kết nối đến máy chủ. Vui lòng liên hệ quản trị viên.'
+                                    });
+                                 }
+                              });
+                           });
+                           </script>
+
                         <!--begin::Sign In-->
                         <div class="text-gray-500 text-center fw-semibold fs-6">
                            Already have an Account?
@@ -160,15 +262,9 @@
                      <div class="w-lg-500px d-flex flex-stack">
                         <!--begin::Languages-->
                         <div class="me-10">
-                           <div class="gtranslate_wrapper"></div> 
-                              <div class="gtranslate_wrapper"></div>
-                              <script>window.gtranslateSettings = {"default_language":"vi",
-                                 "native_language_names":true,
-                                 "detect_browser_language":true,
-                                 "wrapper_selector":".gtranslate_wrapper",
-                                 "float_switcher_open_direction":"bottom",
-                                 "alt_flags":{"en":"usa","pt":"brazil","es":"mexico","fr":"quebec"}}</script>
-                              <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+                           <div class="gtranslate_wrapper"></div>
+                           <script>window.gtranslateSettings = {"default_language":"en","wrapper_selector":".gtranslate_wrapper"}</script>
+                           <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
                         </div>
                         <!--end::Languages--> 
                         <!--begin::Links-->
