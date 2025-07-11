@@ -1,8 +1,8 @@
 import Course from '../app/models/Course.js';
 
 export default async function setGlobalVariables(req, res, next) {
-    // Biến thông tin người dùng (nếu có)
-    res.locals.user = req.user || null;
+    // Lấy thông tin người dùng từ session
+    res.locals.user = req.session?.user || null;
 
     // Biến số lượng khoá học đã bị xoá mềm (deleted)
     try {

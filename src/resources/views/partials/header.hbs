@@ -43,12 +43,96 @@
                         }; 
                     </script>
                     <script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
+                </div> 
+                {{#if user}}
+                    <div class="menu   
+                        menu-rounded 
+                        menu-active-bg 
+                        menu-state-primary 
+                        menu-column 
+                        menu-lg-row 
+                        menu-title-gray-700 
+                        menu-icon-gray-500 
+                        menu-arrow-gray-500 
+                        menu-bullet-gray-500 
+                        my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0 "         
+                        id="kt_app_header_menu"
+                        data-kt-menu="true"
+                        >
+                        <!--begin:Menu item-->
+                        <div  data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start"  class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2" >
+                            <!--begin:Menu link-->
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center p-3 rounded bg-light">
+                                    <!-- Avatar -->
+                                        <div class="symbol symbol-45px symbol-circle me-4">
+                                            <img src="{{user.avatarUrl}}" alt="Avatar" />
+                                        </div>
+
+                                        <!-- Thông tin -->
+                                        <div class="d-flex flex-column">
+                                            <div class="d-flex align-items-center">
+                                            <span class="fw-bold text-dark me-2">{{user.name}}</span>
+
+                                            <!-- Badge đổi màu theo role -->
+                                            <span class="badge fw-semibold px-2 py-1
+                                                {{#if (eq user.role 'admin')}}badge-danger
+                                                {{else if (eq user.role 'shop')}}badge-warning
+                                                {{else}}badge-success{{/if}}">
+                                                {{user.role}}
+                                            </span>
+                                            </div>
+                                            <span class="text-muted">{{user.currentMoney}} đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--end:Menu link-->
+
+                            <!--begin:Menu sub-->
+                            <div  class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px" >
+                                <!--begin:Menu item-->
+                                <div  data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start"  class="menu-item menu-lg-down-accordion" >
+                                    <!--begin:Menu link-->
+                                    <a href="" class="menu-link py-3">Tài khoản của tôi</a>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu link-->
+                                    <a href="" class="menu-link py-3">Đơn mua</a>
+                                    <!--end:Menu link-->
+
+                                    {{!-- ✅ Nếu là admin hợp lệ --}}
+                                    {{#if (and (eq user.role 'admin') (eq user.level 3) (not user.isBanned) (not user.deleted))}}
+                                    <div class="menu-item">
+                                        <a href="/admin/dashboard" class="menu-link py-3 fw-semibold">Trang quản lý</a>
+                                    </div>
+                                    {{/if}}
+
+                                    {{!-- ✅ Nếu là shop hợp lệ --}}
+                                    {{#if (and (eq user.role 'shop') (eq user.level 2) (not user.isBanned) (not user.deleted))}}
+                                    <div class="menu-item">
+                                        <a href="/shop/dashboard" class="menu-link py-3 fw-semibold">Quản trị Shop</a>
+                                    </div>
+                                    {{/if}}
+
+                                    <!--begin:Menu link-->
+                                    <a href="/auth/logout" class="menu-link py-3">Đăng xuất</a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item--> 
+                            </div>
+                            <!--end:Menu sub-->
+                    </div>
+                    <!--end:Menu item-->   
                 </div>
-                <div class="d-flex align-items-center">
-                    <a href="/auth/login" class="text-muted text-hover-primary fw-semibold">Đăng nhập</a>
-                    <span class="text-muted m-2">|</span>
-                    <a href="/auth/register" class="text-muted text-hover-primary fw-semibold">Đăng ký</a>
-                </div>
+                <!--end::Menu-->
+
+                {{else}}
+                    <div class="d-flex align-items-center">
+                        <a href="/auth/login" class="text-muted text-hover-primary fw-semibold">Đăng nhập</a>
+                        <span class="text-muted m-2">|</span>
+                        <a href="/auth/register" class="text-muted text-hover-primary fw-semibold">Đăng ký</a>
+                    </div>
+                {{/if}}
+
             </div>
         </div>
     </div>
@@ -93,7 +177,7 @@
                         <i class="fa-solid fa-cart-shopping fa-lg"></i> 
                         <!-- Badge số lượng -->
                         <span class="position-absolute top-0 start-100 translate-middle badge badge-circle bg-primary fs-8">
-                        3
+                        0
                         </span>
                     </a>
                 </div>

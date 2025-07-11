@@ -35,7 +35,6 @@ passport.use(
                         password: hashedPassword,
                         provider: 'google',
                         role: 'user',
-                        avatarUrl: profile.photos?.[0]?.value || undefined,
                         token: accessToken,
                     });
                 } else {

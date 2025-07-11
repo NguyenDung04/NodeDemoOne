@@ -1,7 +1,11 @@
 class AdminController {
-    // GET /
-    index(req, res) {
-        res.render('home');
+    // GET /admin/dashboard
+    show(req, res) {
+        res.render('admin/dashboard', {
+            layout: false, 
+            title: 'Trang quản trị',
+            url: req.originalUrl,
+        });
     }
 }
 

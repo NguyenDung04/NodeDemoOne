@@ -47,8 +47,15 @@ app.engine(
     'hbs',
     engine({
         extname: '.hbs',
+        partialsDir: [
+            path.join(__dirname, 'resources', 'views', 'admin', 'layouts'), // 🧩 cho admin
+            path.join(__dirname, 'resources', 'views', 'partials'),         // 🧩 nếu có partial dùng chung
+        ],
         helpers: {
             inc: (value) => parseInt(value) + 1,
+            eq: (a, b) => a === b,
+            not: (v) => !v,
+            and: (...args) => args.slice(0, -1).every(Boolean),
         },
     })
 );
@@ -60,6 +67,9 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    maxAge: 2 * 60 * 60 * 1000,  
+  }
 }));
 
 // ✅ Passport middleware

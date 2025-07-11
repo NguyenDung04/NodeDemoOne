@@ -3,7 +3,7 @@ import adminController from '../app/controllers/AdminController.js';
 
 const router = express.Router();
 
-// GET /
-router.get('/', adminController.index);
+// GET /dashboard
+router.get('/dashboard', adminController.show);
 
 export default router;
