@@ -4,7 +4,7 @@ import mongooseDelete from 'mongoose-delete';
 const Schema = mongoose.Schema;
 
 const User = new Schema({
-  googleId: { type: String, default: null, unique: true, sparse: true },
+  googleId: { type: String, default: null},
   name: { type: String, required: true, maxLength: 100 },
   username: { type: String, required: true, sparse: true, default: 'User'},
   email: { type: String, required: true, unique: true, maxLength: 100 },
