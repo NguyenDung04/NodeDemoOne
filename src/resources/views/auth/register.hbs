@@ -61,191 +61,171 @@
                         </div>  
 
                         <!--begin::Local Login Form-->
-                        <form class="form w-100" novalidate="novalidate" id="form_register_local" method="POST" action="">
-                           <!--begin::Input group-->
+                        <form class="form w-100" id="form_register_local" method="POST" action="">
+                           <!-- Email -->
                            <div class="form-floating fv-row mb-8">
-                              <input type="email" class="form-control bg-transparent" name="email" autocomplete="off" id="floatingEmail" placeholder="Enter your email" required/>
-                              <label class="text-muted fw-bold" for="floatingEmail">Enter your email</label>
+                              <input type="email" class="form-control bg-transparent" name="email" id="floatingEmail" placeholder="Email" required autocomplete="off" />
+                              <label for="floatingEmail" class="text-muted fw-bold">Enter your email</label>
                            </div>
-                           <!--end::Input group-->  
 
-                           <!--begin::Input group-->
+                           <!-- Username -->
                            <div class="form-floating fv-row mb-8">
-                              <input type="text" class="form-control bg-transparent" name="username" autocomplete="off" id="floatingUsername" placeholder="Enter your username" required/>
-                              <label class="text-muted fw-bold" for="floatingUsername">Enter your username</label>
+                              <input type="text" class="form-control bg-transparent" name="username" id="floatingUsername" placeholder="Username" required autocomplete="off" />
+                              <label for="floatingUsername" class="text-muted fw-bold">Enter your username</label>
                            </div>
-                           <!--end::Input group-->                        
 
-                           <!--begin::Input group-->
-                           <div class="fv-row mb-8" data-kt-password-meter="true">
-                              <!--begin::Wrapper-->
-                              <div class="mb-1">
-                                 <!--begin::Input wrapper-->
-                                 <div class="position-relative mb-3">    
-                                    <input class="form-control bg-transparent" type="password" placeholder="Enter your password" name="password" autocomplete="off"/>
-                                       <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
-                                          <i class="ki-outline ki-eye fs-2"></i>
-                                          <i class="ki-outline ki-eye-slash fs-2 d-none"></i>                                    
-                                       </span> 
-                                 </div>
-                                 <!--end::Input wrapper-->
-                                 <!--begin::Meter-->
-                                 <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
-                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
-                                 </div>
-                                 <!--end::Meter-->
-                              </div>
-                              <!--end::Wrapper-->
-                              <!--begin::Hint-->
-                              <div class="text-muted">
-                                 Use 8 or more characters with a mix of letters, numbers & symbols.
-                              </div>
-                              <!--end::Hint-->
-                           </div>
-                           <!--end::Input group--->
-                           <!--end::Input group--->
-                           <div class="fv-row mb-8" data-kt-password-meter="true">
-                              <!--begin::Repeat Password-->
-                              <div class="position-relative mb-3">    
-                                    <input class="form-control bg-transparent" type="password" placeholder="Repeat your password" name="confirmPassword" autocomplete="off"/>
-                                       <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
-                                       <i class="ki-outline ki-eye-slash fs-2"></i>                    
-                                       <i class="ki-outline ki-eye fs-2 d-none"></i>                
-                                    </span>
-                                 </div>
-                              <!--end::Repeat Password-->
-                           </div>
-                           <!--end::Input group--->
-                           <!--begin::Accept-->
+                           <!-- Gender -->
                            <div class="fv-row mb-8">
-                              <label class="form-check form-check-inline"> 
-                              <input id="accept_terms" class="form-check-input" type="checkbox" value="1"/> 
-                              <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">
-                              I Accept the <a href="#" class="ms-1 link-primary">Terms</a>
-                              </span>
+                              <select id="gender" name="gender" class="form-select" required>
+                                 <option value="" disabled selected>-- Select gender --</option>
+                                 <option value="male">Male</option>
+                                 <option value="female">Female</option>
+                                 <option value="other">Other</option>
+                              </select>
+                           </div>
+
+                           <!-- Password -->
+                           <div class="fv-row mb-8" data-kt-password-meter="true">
+                              <div class="position-relative mb-3">
+                                 <input class="form-control bg-transparent" type="password" name="password" placeholder="Enter your password" required autocomplete="off" />
+                                 <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+                                    <i class="ki-outline ki-eye fs-2"></i>
+                                    <i class="ki-outline ki-eye-slash fs-2 d-none"></i>
+                                 </span>
+                              </div>
+                              <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+                                 <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                 <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                 <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                 <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+                              </div>
+                              <div class="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols.</div>
+                           </div>
+
+                           <!-- Confirm Password -->
+                           <div class="fv-row mb-8">
+                              <div class="position-relative mb-3">
+                                 <input class="form-control bg-transparent" type="password" name="confirmPassword" placeholder="Repeat your password" required autocomplete="off" />
+                                 <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+                                    <i class="ki-outline ki-eye-slash fs-2"></i>
+                                    <i class="ki-outline ki-eye fs-2 d-none"></i>
+                                 </span>
+                              </div>
+                           </div>
+
+                           <!-- Accept Terms -->
+                           <div class="fv-row mb-8">
+                              <label class="form-check form-check-inline">
+                                 <input id="accept_terms" class="form-check-input" type="checkbox" value="1" />
+                                 <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">
+                                    I Accept the <a href="#" class="ms-1 link-primary">Terms</a>
+                                 </span>
                               </label>
                            </div>
-                           <!--end::Accept-->
 
-                           <!--begin::Submit button-->
+                           <!-- Submit Button -->
                            <div class="d-grid mb-10">
                               <button type="submit" id="kt_register_signin_link" class="btn btn-primary">
-                                 <!--begin::Indicator label-->
-                                 <span class="indicator-label">
-                                 Sign up</span>
-                                 <!--end::Indicator label-->
-                                 <!--begin::Indicator progress-->
-                                 <span class="indicator-progress">
-                                 Please wait...    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                 </span>
-                                 <!--end::Indicator progress-->        
+                                 <span class="indicator-label">Sign up</span>
+                                 <span class="indicator-progress">Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                               </button>
                            </div>
-                           <!--end::Submit button-->
                         </form>
                         <!--end::Local Login Form-->
 
+
                         <script>
-                           document.addEventListener("DOMContentLoaded", function () {
-                              const form = document.getElementById("form_register_local");
+                        document.addEventListener("DOMContentLoaded", function () {
+                           const form = document.getElementById("form_register_local");
 
-                              form.addEventListener("submit", async function (e) {
-                                 e.preventDefault();
+                           form.addEventListener("submit", async function (e) {
+                              e.preventDefault();
 
-                                 const email = form.email.value.trim();
-                                 const username = form.username.value.trim();
-                                 const password = form.password.value;
-                                 const confirmPassword = form.confirmPassword.value;
-                                 const acceptTerms = document.getElementById("accept_terms");
+                              const email = form.email.value.trim();
+                              const username = form.username.value.trim();
+                              const gender = form.gender.value;
+                              const password = form.password.value;
+                              const confirmPassword = form.confirmPassword.value;
+                              const acceptTerms = document.getElementById("accept_terms");
 
-                                 // ✅ Kiểm tra rỗng
-                                 if (!email || !username || !password || !confirmPassword) {
-                                    return Swal.fire({
-                                       icon: 'warning',
-                                       title: 'Thiếu thông tin',
-                                       text: 'Vui lòng điền đầy đủ các thông tin.'
+                              if (!email || !username || !gender || !password || !confirmPassword) {
+                                 return Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Thiếu thông tin',
+                                    text: 'Vui lòng điền đầy đủ tất cả các trường.'
+                                 });
+                              }
+
+                              if (password !== confirmPassword) {
+                                 return Swal.fire({
+                                    icon: 'error',
+                                    title: 'Mật khẩu không khớp',
+                                    text: 'Vui lòng nhập lại mật khẩu cho khớp.'
+                                 });
+                              }
+
+                              if (!acceptTerms.checked) {
+                                 return Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Chấp nhận điều khoản',
+                                    text: 'Bạn phải đồng ý với điều khoản trước khi đăng ký.'
+                                 });
+                              }
+
+                              const submitBtn = document.getElementById("kt_register_signin_link");
+                              submitBtn.disabled = true;
+                              submitBtn.querySelector(".indicator-label").style.display = "none";
+                              submitBtn.querySelector(".indicator-progress").style.display = "inline-block";
+
+                              try {
+                                 const res = await fetch("/auth/register", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                       email,
+                                       username,
+                                       gender,
+                                       password
+                                    })
+                                 });
+
+                                 const data = await res.json();
+                                 submitBtn.disabled = false;
+                                 submitBtn.querySelector(".indicator-label").style.display = "inline-block";
+                                 submitBtn.querySelector(".indicator-progress").style.display = "none";
+
+                                 if (res.ok) {
+                                    Swal.fire({
+                                       icon: 'success',
+                                       title: 'Đăng ký thành công!',
+                                       text: 'Bạn có thể đăng nhập ngay bây giờ.',
+                                       timer: 2500,
+                                       showConfirmButton: false
+                                    }).then(() => {
+                                       window.location.href = "/auth/login";
                                     });
-                                 }
-
-                                 // ✅ Kiểm tra mật khẩu khớp
-                                 if (password !== confirmPassword) {
-                                    return Swal.fire({
-                                       icon: 'error',
-                                       title: 'Mật khẩu không khớp',
-                                       text: 'Vui lòng nhập lại mật khẩu cho khớp.'
-                                    });
-                                 }
-
-                                 // ✅ Kiểm tra điều khoản
-                                 if (!acceptTerms.checked) {
-                                    return Swal.fire({
-                                       icon: 'warning',
-                                       title: 'Chấp nhận điều khoản',
-                                       text: 'Bạn phải đồng ý với điều khoản trước khi đăng ký.'
-                                    });
-                                 }
-
-                                 // ✅ Hiển thị loading UI
-                                 const submitBtn = document.getElementById("kt_register_signin_link");
-                                 submitBtn.disabled = true;
-                                 submitBtn.querySelector(".indicator-label").style.display = "none";
-                                 submitBtn.querySelector(".indicator-progress").style.display = "inline-block";
-
-                                 try {
-                                    const res = await fetch("/auth/register", {
-                                       method: "POST",
-                                       headers: {
-                                          "Content-Type": "application/json"
-                                       },
-                                       body: JSON.stringify({
-                                          email,
-                                          username,
-                                          password
-                                       })
-                                    });
-
-                                    const data = await res.json();
-
-                                    // ❌ Dừng loading
-                                    submitBtn.disabled = false;
-                                    submitBtn.querySelector(".indicator-label").style.display = "inline-block";
-                                    submitBtn.querySelector(".indicator-progress").style.display = "none";
-
-                                    if (res.ok) {
-                                       Swal.fire({
-                                          icon: 'success',
-                                          title: 'Đăng ký thành công!',
-                                          text: 'Bạn có thể đăng nhập ngay bây giờ.',
-                                          timer: 2500,
-                                          showConfirmButton: false
-                                       }).then(() => {
-                                          window.location.href = "/auth/login";
-                                       });
-                                    } else {
-                                       Swal.fire({
-                                          icon: 'error',
-                                          title: 'Lỗi đăng ký',
-                                          text: data.error || 'Đã xảy ra lỗi không xác định.'
-                                       });
-                                    }
-                                 } catch (err) {
-                                    // ❌ Dừng loading khi lỗi
-                                    submitBtn.disabled = false;
-                                    submitBtn.querySelector(".indicator-label").style.display = "inline-block";
-                                    submitBtn.querySelector(".indicator-progress").style.display = "none";
-
+                                 } else {
                                     Swal.fire({
                                        icon: 'error',
-                                       title: 'Lỗi hệ thống',
-                                       text: 'Không thể kết nối đến máy chủ. Vui lòng liên hệ quản trị viên.'
+                                       title: 'Lỗi đăng ký',
+                                       text: data.error || 'Đã xảy ra lỗi không xác định.'
                                     });
                                  }
-                              });
+                              } catch (err) {
+                                 submitBtn.disabled = false;
+                                 submitBtn.querySelector(".indicator-label").style.display = "inline-block";
+                                 submitBtn.querySelector(".indicator-progress").style.display = "none";
+
+                                 Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi hệ thống',
+                                    text: 'Không thể kết nối đến máy chủ. Vui lòng liên hệ quản trị viên.'
+                                 });
+                              }
                            });
-                           </script>
+                        });
+                        </script>
+
 
                         <!--begin::Sign In-->
                         <div class="text-gray-500 text-center fw-semibold fs-6">

@@ -11,6 +11,7 @@ const User = new Schema({
   password: { type: String, default: null },
   provider: { type: String, enum: ['local', 'google'], required: true },
   role: { type: String, enum: ['user', 'shop', 'admin'], default: 'user' },
+  gender: { type: String, enum: ['male', 'female', 'other'], default: 'other' },
   avatarUrl: { type: String, default: '/image/default-user.jpg' },
   token: { type: String, required: true },
   totalDeposit: { type: Number, default: 0 },

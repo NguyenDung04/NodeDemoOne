@@ -34,6 +34,7 @@ passport.use(
                         email: email || `no-email-${Date.now()}@google.com`,
                         password: hashedPassword,
                         provider: 'google',
+                        gender: 'other',
                         role: 'user',
                         token: accessToken,
                     });

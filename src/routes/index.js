@@ -1,7 +1,8 @@
 import siteRouter from './site.js';
 import courseRouter from './course.js';
-import authRouter from './auth.js';
-import adminRouter from './admin.js';
+import authRouter from './auth.js'; 
+import adminRouter from './admin/index.js';
+
 
 function route(app) {
     app.use('/auth', authRouter);

@@ -25,8 +25,8 @@
                     </a>
                 </div>
                 <div class="d-flex align-items-center m-3">
-                    <a href="#" class="btn btn-custom btn-color-gray-600 btn-active-light d-flex align-items-center p-0 m-0">
-                    <i class="fa-brands fa-zalo fa-lg"></i>
+                    <a href="#" class="btn btn-custom btn-color-gray-600 btn-active-light d-flex align-items-center p-0 m-0"> 
+                    <i class="fa-regular fa-circle-question fa-lg"></i>
                     <span class="fw-semibold d-none d-lg-inline ms-2">Hỗ trợ</span>
                     </a>
                 </div>
@@ -100,14 +100,14 @@
                                     <!--end:Menu link-->
 
                                     {{!-- ✅ Nếu là admin hợp lệ --}}
-                                    {{#if (and (eq user.role 'admin') (eq user.level 3) (not user.isBanned) (not user.deleted))}}
+                                    {{#if (and (eq user.role 'admin') (not user.isBanned) (not user.deleted))}}
                                     <div class="menu-item">
                                         <a href="/admin/dashboard" class="menu-link py-3 fw-semibold">Trang quản lý</a>
                                     </div>
                                     {{/if}}
 
                                     {{!-- ✅ Nếu là shop hợp lệ --}}
-                                    {{#if (and (eq user.role 'shop') (eq user.level 2) (not user.isBanned) (not user.deleted))}}
+                                    {{#if (and (eq user.role 'shop') (not user.isBanned) (not user.deleted))}}
                                     <div class="menu-item">
                                         <a href="/shop/dashboard" class="menu-link py-3 fw-semibold">Quản trị Shop</a>
                                     </div>

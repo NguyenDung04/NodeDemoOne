@@ -74,10 +74,10 @@ class AuthControllers {
     
     // Xử lý đăng ký
     async handleRegister(req, res) {
-        const { username, email, password } = req.body;
+        const { username, email, password, gender } = req.body;
 
         if (!username || !email || !password) {
-            console.error('[Register] Thiếu dữ liệu:', { username, email, password });
+            console.error('[Register] Thiếu dữ liệu:', { username, email, password, gender });
             return res.status(400).json({ error: 'Thiếu thông tin đăng ký.' });
         }
 
@@ -97,6 +97,7 @@ class AuthControllers {
                 name: username || 'Guest',
                 username,
                 email,
+                gender,
                 password: hashedPassword,
                 provider: 'local',
                 token: Date.now(),
