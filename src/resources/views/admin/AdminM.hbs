@@ -63,7 +63,14 @@
                             <div id="kt_app_content" class="app-content  flex-column-fluid ">
                                 <!--begin::Content container-->
                                 <div id="kt_app_content_container" class="app-container  container-fluid "> 
-                                    <h1>Trang quản lý quản trị viên</h1>                               
+                                    <h1>Trang quản lý quản trị viên</h1>     
+                                    <h1>{{title}}</h1>
+                                    <ul>
+                                    {{#each admins}}
+                                        <li>{{this.name}} - {{this.email}}</li>
+                                    {{/each}}
+                                    </ul>
+                          
                                 </div>
                                 <!--end::Content container-->
                             </div>

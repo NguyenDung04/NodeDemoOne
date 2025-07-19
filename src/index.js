@@ -5,8 +5,8 @@ import { engine } from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import dotenv from 'dotenv';
-import session from 'express-session';           // ✅ Bổ sung dòng này
-import passport from 'passport';                 // ✅ Khởi tạo passport
+import session from 'express-session';            
+import passport from 'passport';                
 
 // Load biến môi trường từ .env
 dotenv.config();
@@ -48,8 +48,8 @@ app.engine(
     engine({
         extname: '.hbs',
         partialsDir: [
-            path.join(__dirname, 'resources', 'views', 'admin', 'layouts'), // 🧩 cho admin
-            path.join(__dirname, 'resources', 'views', 'partials'),         // 🧩 nếu có partial dùng chung
+            path.join(__dirname, 'resources', 'views', 'admin', 'layouts'),  
+            path.join(__dirname, 'resources', 'views', 'partials'),         
         ],
         helpers: {
             inc: (value) => parseInt(value) + 1,

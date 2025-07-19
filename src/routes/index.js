@@ -1,17 +1,10 @@
-import siteRouter from './site.js';
-import courseRouter from './course.js';
-import authRouter from './auth.js'; 
-import adminRouter from './admin/index.js';
+import viewRoutes from './view/index.js';
+import apiRoutes from './api/index.js';
 
 
 function route(app) {
-    app.use('/auth', authRouter);
-
-    app.use('/admin', adminRouter);
-
-    app.use('/course', courseRouter);
-
-    app.use('/', siteRouter);
+    viewRoutes(app);  // gắn /auth, /admin, /course,...
+    apiRoutes(app);   // gắn /api/users, /api/courses,...
 }
 
 export default route;
